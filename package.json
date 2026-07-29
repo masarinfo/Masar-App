@@ -3,11 +3,10 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "pnpm --parallel --recursive run dev",
-    "build": "pnpm --recursive run build",
-    "lint": "pnpm --recursive run lint",
-    "test": "pnpm --recursive run test",
-    "postinstall": "pnpm --filter @masar/types build && pnpm --filter @masar/db build",
+    "dev": "turbo run dev",
+    "build": "turbo run build",
+    "lint": "turbo run lint",
+    "test": "turbo run test",
     "db:generate": "pnpm --filter @masar/db generate",
     "db:push": "pnpm --filter @masar/db push",
     "db:studio": "pnpm --filter @masar/db studio",
@@ -16,6 +15,7 @@
   },
   "devDependencies": {
     "prettier": "^3.5.0",
+    "turbo": "^2.4.0",
     "typescript": "^5.7.3"
   },
   "engines": {
