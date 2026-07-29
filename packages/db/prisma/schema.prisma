@@ -1,0 +1,118 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+enum Role {
+  OWNER
+  ADMIN
+  MEMBER
+  GUEST
+}
+
+enum PropertyType {
+  TEXT
+  NUMBER
+  SELECT
+  MULTI_SELECT
+  DATE
+  PERSON
+  FILES
+  CHECKBOX
+  URL
+  EMAIL
+  FORMULA
+  RELATION
+  ROLLUP
+}
+
+model User {
+  id            String         @id @default(cuid())
+  email         String         @unique
+  name          String
+  passwordHash  String?
+  avatarUrl     String?
+  language      String         @default("ar")
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  memberships   Member[]
+  pages         Page[]
+  auditLogs     AuditLog[]
+}
+
+model Workspace {
+  id          String   @id @default(cuid())
+  name        String
+  slug        String   @unique
+  icon        String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  members     Member[]
+  pages       Page[]
+}
+
+model Member {
+  id          String    @id @default(cuid())
+  role        Role      @default(MEMBER)
+  userId      String
+  workspaceId String
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  workspace   Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  createdAt   DateTime  @default(now())
+
+  @@unique([userId, workspaceId])
+}
+
+model Page {
+  id          String        @id @default(cuid())
+  title       String        @default("صفحة جديدة")
+  icon        String?
+  coverUrl    String?
+  content     Json?         // TipTap JSON or Yjs document binary snapshot
+  isPublished Boolean       @default(false)
+  isArchived  Boolean       @default(false)
+  isDatabase  Boolean       @default(false)
+  workspaceId String
+  authorId    String
+  parentId    String?
+  parent      Page?         @relation("NestedPages", fields: [parentId], references: [id], onDelete: Cascade)
+  children    Page[]        @relation("NestedPages")
+  properties  Property[]
+  rows        DatabaseRow[]
+  workspace   Workspace     @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  author      User          @relation(fields: [authorId], references: [id])
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+}
+
+model Property {
+  id         String       @id @default(cuid())
+  name       String
+  type       PropertyType @default(TEXT)
+  options    Json?        // For SELECT & MULTI_SELECT options
+  pageId     String
+  page       Page         @relation(fields: [pageId], references: [id], onDelete: Cascade)
+}
+
+model DatabaseRow {
+  id        String   @id @default(cuid())
+  pageId    String   // Belongs to Page (Database)
+  data      Json     // Key-value of property IDs to values
+  page      Page     @relation(fields: [pageId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model AuditLog {
+  id        String   @id @default(cuid())
+  action    String
+  entity    String
+  entityId  String
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  createdAt DateTime @default(now())
+}
