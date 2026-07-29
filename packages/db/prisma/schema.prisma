@@ -7,28 +7,7 @@ generator client {
   provider = "prisma-client-js"
 }
 
-enum Role {
-  OWNER
-  ADMIN
-  MEMBER
-  GUEST
-}
-
-enum PropertyType {
-  TEXT
-  NUMBER
-  SELECT
-  MULTI_SELECT
-  DATE
-  PERSON
-  FILES
-  CHECKBOX
-  URL
-  EMAIL
-  FORMULA
-  RELATION
-  ROLLUP
-}
+// Enums removed for SQLite compatibility
 
 model User {
   id            String         @id @default(cuid())
@@ -57,7 +36,7 @@ model Workspace {
 
 model Member {
   id          String    @id @default(cuid())
-  role        Role      @default(MEMBER)
+  role        String    @default("MEMBER")
   userId      String
   workspaceId String
   user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -92,7 +71,7 @@ model Page {
 model Property {
   id         String       @id @default(cuid())
   name       String
-  type       PropertyType @default(TEXT)
+  type       String       @default("TEXT")
   options    Json?        // For SELECT & MULTI_SELECT options
   pageId     String
   page       Page         @relation(fields: [pageId], references: [id], onDelete: Cascade)
