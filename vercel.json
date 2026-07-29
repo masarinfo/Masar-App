@@ -1,5 +1,5 @@
 {
-  "buildCommand": "pnpm --filter @masar/web build",
+  "buildCommand": "pnpm --filter @masar/db build && pnpm --filter @masar/web build",
   "outputDirectory": "apps/web/.next",
   "framework": "nextjs"
 }
