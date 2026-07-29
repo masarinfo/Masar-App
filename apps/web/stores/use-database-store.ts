@@ -25,7 +25,7 @@ export const useDatabaseStore = create<DatabaseState>((set, get) => ({
 
   fetchDatabaseSchema: async (pageId) => {
     const token = typeof window !== 'undefined' ? localStorage.getItem('masar_token') : null;
-    if (!token || !pageId) return;
+    if (!pageId) return;
 
     set({ isLoading: true, error: null });
     try {
