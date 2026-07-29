@@ -64,7 +64,7 @@ export function CollaborationHeader({
         <div className="flex items-center -space-x-2 space-x-reverse overflow-hidden">
           {activeUsers.map((u, i) => (
             <div
-              key={u.id || i}
+              key={`${u.id}-${i}`}
               style={{ borderColor: u.color || '#10b981' }}
               className="relative border-2 rounded-xl"
               title={u.name}
