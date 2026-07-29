@@ -10,11 +10,9 @@ import {
 } from '@nestjs/common';
 import { DatabaseService } from './database.service';
 import { CreatePropertyDto, UpdatePropertyDto, CreateRowDto, UpdateRowDataDto } from './dto/database.dto';
-import { JwtAuthGuard } from '../../common/guards/jwt-auth.guard';
 import { Property, DatabaseRow } from '@masar/db';
 
 @Controller('database')
-@UseGuards(JwtAuthGuard)
 export class DatabaseController {
   constructor(private readonly databaseService: DatabaseService) {}
 

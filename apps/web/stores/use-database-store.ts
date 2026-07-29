@@ -29,8 +29,11 @@ export const useDatabaseStore = create<DatabaseState>((set, get) => ({
 
     set({ isLoading: true, error: null });
     try {
+      const headers: Record<string, string> = {};
+      if (token) headers.Authorization = `Bearer ${token}`;
+      
       const res = await fetch(`${API_URL}/database/pages/${pageId}`, {
-        headers: { Authorization: `Bearer ${token}` },
+        headers,
       });
 
       if (!res.ok) throw new Error('فشل تحميل هيكل قاعدة البيانات');
@@ -44,16 +47,14 @@ export const useDatabaseStore = create<DatabaseState>((set, get) => ({
 
   createProperty: async (dto) => {
     const token = typeof window !== 'undefined' ? localStorage.getItem('masar_token') : null;
-    if (!token) return false;
-
     set({ isLoading: true, error: null });
     try {
+      const headers: Record<string, string> = { 'Content-Type': 'application/json' };
+      if (token) headers.Authorization = `Bearer ${token}`;
+
       const res = await fetch(`${API_URL}/database/properties`, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
+        headers,
         body: JSON.stringify(dto),
       });
 
@@ -70,12 +71,13 @@ export const useDatabaseStore = create<DatabaseState>((set, get) => ({
 
   deleteProperty: async (propertyId, pageId) => {
     const token = typeof window !== 'undefined' ? localStorage.getItem('masar_token') : null;
-    if (!token) return false;
-
     try {
+      const headers: Record<string, string> = {};
+      if (token) headers.Authorization = `Bearer ${token}`;
+
       const res = await fetch(`${API_URL}/database/properties/${propertyId}`, {
         method: 'DELETE',
-        headers: { Authorization: `Bearer ${token}` },
+        headers,
       });
 
       if (!res.ok) throw new Error('فشل حذف الخاصية');
@@ -89,15 +91,13 @@ export const useDatabaseStore = create<DatabaseState>((set, get) => ({
 
   createRow: async (pageId) => {
     const token = typeof window !== 'undefined' ? localStorage.getItem('masar_token') : null;
-    if (!token) return false;
-
     try {
+      const headers: Record<string, string> = { 'Content-Type': 'application/json' };
+      if (token) headers.Authorization = `Bearer ${token}`;
+
       const res = await fetch(`${API_URL}/database/rows`, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
+        headers,
         body: JSON.stringify({ pageId, data: {} }),
       });
 
@@ -112,18 +112,16 @@ export const useDatabaseStore = create<DatabaseState>((set, get) => ({
 
   updateCellData: async (rowId, pageId, propertyId, value) => {
     const token = typeof window !== 'undefined' ? localStorage.getItem('masar_token') : null;
-    if (!token) return false;
-
     const row = get().rows.find((r) => r.id === rowId);
     const updatedData = { ...(row?.data || {}), [propertyId]: value };
 
     try {
+      const headers: Record<string, string> = { 'Content-Type': 'application/json' };
+      if (token) headers.Authorization = `Bearer ${token}`;
+
       const res = await fetch(`${API_URL}/database/rows/${rowId}`, {
         method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
+        headers,
         body: JSON.stringify({ data: updatedData }),
       });
 
@@ -142,12 +140,13 @@ export const useDatabaseStore = create<DatabaseState>((set, get) => ({
 
   deleteRow: async (rowId, pageId) => {
     const token = typeof window !== 'undefined' ? localStorage.getItem('masar_token') : null;
-    if (!token) return false;
-
     try {
+      const headers: Record<string, string> = {};
+      if (token) headers.Authorization = `Bearer ${token}`;
+
       const res = await fetch(`${API_URL}/database/rows/${rowId}`, {
         method: 'DELETE',
-        headers: { Authorization: `Bearer ${token}` },
+        headers,
       });
 
       if (!res.ok) throw new Error('فشل حذف الصف');
