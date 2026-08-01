@@ -1,169 +1,144 @@
 'use client';
 
-import React, { useEffect } from 'react';
+import React from 'react';
 import Link from 'next/link';
-import { useAuthStore } from '@/stores/use-auth-store';
-import { Layers, Sparkles, Database, Code, CheckCircle2, LogIn, UserPlus, LogOut, ShieldCheck, User, Palette, Building2, FileText, FolderTree, Table } from 'lucide-react';
+import { Edit3, Database, Users, Calendar, Sparkles, ShieldCheck } from 'lucide-react';
 
-export default function HomePage() {
-  const { user, isAuthenticated, checkAuth, logout } = useAuthStore();
-
-  useEffect(() => {
-    checkAuth();
-  }, [checkAuth]);
-
+export default function LandingPage() {
   return (
-    <main className="min-h-screen flex flex-col items-center justify-center p-6 bg-gradient-to-b from-[#0b0f19] via-[#0f172a] to-[#0b0f19] text-white relative overflow-hidden">
-      {/* Decorative Glow */}
-      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[30rem] h-[30rem] bg-emerald-500/10 blur-[140px] rounded-full pointer-events-none" />
+    <main className="min-h-screen bg-gradient-to-b from-slate-950 to-slate-900 text-white font-cairo overflow-hidden relative" dir="rtl">
+      
+      {/* Decorative Background Orbs */}
+      <div className="absolute top-20 right-10 w-96 h-96 bg-emerald-500/20 blur-[150px] rounded-full pointer-events-none" />
+      <div className="absolute bottom-20 left-10 w-[30rem] h-[30rem] bg-cyan-500/10 blur-[150px] rounded-full pointer-events-none" />
 
-      {/* Top Navbar */}
-      <nav className="absolute top-0 left-0 right-0 p-6 flex items-center justify-between max-w-6xl mx-auto w-full z-20">
+      {/* Header / Navbar */}
+      <nav className="relative z-20 flex items-center justify-between max-w-7xl mx-auto px-6 py-8">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-emerald-500 to-teal-400 flex items-center justify-center text-slate-950 font-black text-xl shadow-lg shadow-emerald-500/20 font-['Cairo']">
+          <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-emerald-500 to-cyan-400 flex items-center justify-center text-slate-950 font-black text-2xl shadow-lg shadow-emerald-500/20">
             م
           </div>
-          <span className="font-extrabold text-xl font-['Cairo'] text-white">مسار</span>
+          <span className="font-black text-2xl tracking-tight text-white">مسار</span>
         </div>
-
-        <div className="flex items-center gap-3">
-          <Link
-            href="/database"
-            className="px-3.5 py-2 text-xs font-semibold text-slate-950 bg-emerald-400 hover:bg-emerald-300 rounded-xl transition-all flex items-center gap-2 shadow-md shadow-emerald-500/20 font-cairo"
-          >
-            <Table className="w-3.5 h-3.5" />
-            <span>قواعد البيانات الحية</span>
+        <div className="flex items-center gap-4">
+          <Link href="/login" className="text-slate-300 hover:text-white font-bold px-4 py-2 transition-colors">
+            تسجيل الدخول
           </Link>
-
-          <Link
-            href="/workspace/tree"
-            className="px-3.5 py-2 text-xs font-semibold text-slate-300 hover:text-emerald-400 border border-slate-800 bg-slate-900/60 rounded-xl transition-all flex items-center gap-2"
-          >
-            <FolderTree className="w-3.5 h-3.5 text-emerald-400" />
-            <span>شجرة المستندات</span>
+          <Link href="/register" className="bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold px-6 py-2.5 rounded-xl transition-all shadow-lg shadow-emerald-500/20">
+            حساب جديد
           </Link>
-
-          <Link
-            href="/editor"
-            className="px-3.5 py-2 text-xs font-semibold text-slate-300 hover:text-emerald-400 border border-slate-800 bg-slate-900/60 rounded-xl transition-all flex items-center gap-2"
-          >
-            <FileText className="w-3.5 h-3.5 text-emerald-400" />
-            <span>المحرر التكتلي</span>
-          </Link>
-
-          <Link
-            href="/workspace"
-            className="px-3.5 py-2 text-xs font-semibold text-slate-300 hover:text-emerald-400 border border-slate-800 bg-slate-900/60 rounded-xl transition-all flex items-center gap-2"
-          >
-            <Building2 className="w-3.5 h-3.5 text-emerald-400" />
-            <span>مساحة العمل</span>
-          </Link>
-
-          <Link
-            href="/design-system"
-            className="px-3.5 py-2 text-xs font-semibold text-slate-300 hover:text-emerald-400 border border-slate-800 bg-slate-900/60 rounded-xl transition-all flex items-center gap-2"
-          >
-            <Palette className="w-3.5 h-3.5 text-emerald-400" />
-            <span>دليل التصميم</span>
-          </Link>
-
-          {isAuthenticated && user ? (
-            <div className="flex items-center gap-4 bg-slate-900/80 border border-slate-800 px-4 py-2 rounded-2xl backdrop-blur-md">
-              <div className="flex items-center gap-2">
-                <div className="w-8 h-8 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-bold">
-                  <User className="w-4 h-4" />
-                </div>
-                <div className="text-right">
-                  <p className="text-xs font-semibold text-white">{user.name}</p>
-                  <p className="text-[10px] text-slate-400">{user.email}</p>
-                </div>
-              </div>
-              <button
-                onClick={logout}
-                className="p-2 text-slate-400 hover:text-rose-400 transition-colors"
-                title="تسجيل الخروج"
-              >
-                <LogOut className="w-4 h-4" />
-              </button>
-            </div>
-          ) : (
-            <>
-              <Link
-                href="/login"
-                className="px-4 py-2 text-sm font-semibold text-slate-300 hover:text-white transition-colors flex items-center gap-2"
-              >
-                <LogIn className="w-4 h-4" />
-                <span>تسجيل الدخول</span>
-              </Link>
-              <Link
-                href="/register"
-                className="px-4 py-2 rounded-xl bg-emerald-500 hover:bg-emerald-600 font-semibold text-slate-950 text-sm shadow-md shadow-emerald-500/20 transition-all flex items-center gap-2"
-              >
-                <UserPlus className="w-4 h-4" />
-                <span>حساب جديد</span>
-              </Link>
-            </>
-          )}
         </div>
       </nav>
 
-      <div className="max-w-4xl w-full text-center space-y-8 z-10 pt-20">
-        {/* Badge */}
-        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-emerald-500/30 bg-emerald-500/10 text-emerald-400 text-sm font-medium">
-          <Sparkles className="w-4 h-4 animate-pulse" />
-          <span>Phase 4: Module 07 (Database Schema Engine & Field Types) مكتمل بنجاح</span>
-        </div>
-
-        {/* Title */}
-        <h1 className="text-5xl md:text-6xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-400 font-['Cairo']">
-          منصة مسار (Masar SaaS)
+      {/* Hero Section */}
+      <section className="relative z-10 max-w-7xl mx-auto px-6 pt-20 pb-32 text-center flex flex-col items-center">
+        <h1 className="text-5xl md:text-7xl font-black mb-8 leading-tight animate-in fade-in slide-in-from-bottom-4 duration-1000">
+          <span className="bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 to-cyan-400">مسار</span>
+          <br className="hidden md:block" />
+          {' '}— منصة الإنتاجية العربية
         </h1>
-
-        <p className="text-lg md:text-xl text-slate-300 max-w-2xl mx-auto leading-relaxed">
-          أسرع وأرقى منصة تشاركية عربية لبيئة العمل وتدوين الملاحظات. تم تفعيل محرك قواعد البيانات وحقول البيانات الـ 13.
+        <p className="text-xl md:text-2xl text-slate-300 max-w-3xl mb-12 animate-in fade-in slide-in-from-bottom-6 duration-1000 delay-150">
+          نظّم أفكارك، مهامك، ومشاريعك في مكان واحد. بالعربية أولاً.
         </p>
+        <div className="flex flex-col sm:flex-row items-center gap-4 animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-300">
+          <Link href="/register" className="w-full sm:w-auto bg-gradient-to-r from-emerald-500 to-cyan-500 hover:from-emerald-400 hover:to-cyan-400 text-slate-950 font-black text-lg px-8 py-4 rounded-2xl shadow-xl shadow-emerald-500/20 transition-all transform hover:scale-105">
+            ابدأ مجاناً
+          </Link>
+          <a href="#features" className="w-full sm:w-auto bg-slate-800/50 hover:bg-slate-800 border border-slate-700 text-white font-bold text-lg px-8 py-4 rounded-2xl backdrop-blur-sm transition-all">
+            تعرف على المزيد
+          </a>
+        </div>
+      </section>
 
-        {/* Feature Cards Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 pt-8 text-right">
-          <div className="p-5 rounded-2xl border border-slate-800 bg-slate-900/60 backdrop-blur-md hover:border-emerald-500/50 transition-all group">
-            <div className="w-10 h-10 rounded-xl bg-emerald-500/10 flex items-center justify-center text-emerald-400 mb-3 group-hover:scale-110 transition-transform">
-              <Table className="w-5 h-5" />
-            </div>
-            <h3 className="text-base font-semibold text-white mb-1">13 Field Types</h3>
-            <p className="text-xs text-slate-400">محرك قواعد البيانات الشبيه بـ Notion لدعم 13 نوع من الخصائص.</p>
-          </div>
-
-          <div className="p-5 rounded-2xl border border-slate-800 bg-slate-900/60 backdrop-blur-md hover:border-emerald-500/50 transition-all group">
-            <div className="w-10 h-10 rounded-xl bg-cyan-500/10 flex items-center justify-center text-cyan-400 mb-3 group-hover:scale-110 transition-transform">
-              <FolderTree className="w-5 h-5" />
-            </div>
-            <h3 className="text-base font-semibold text-white mb-1">Nested Page Tree</h3>
-            <p className="text-xs text-slate-400">شجرة مستندات متداخلة غير محدودة العمق مع الشريط الجانبي.</p>
-          </div>
-
-          <div className="p-5 rounded-2xl border border-slate-800 bg-slate-900/60 backdrop-blur-md hover:border-emerald-500/50 transition-all group">
-            <div className="w-10 h-10 rounded-xl bg-teal-500/10 flex items-center justify-center text-teal-400 mb-3 group-hover:scale-110 transition-transform">
-              <FileText className="w-5 h-5" />
-            </div>
-            <h3 className="text-base font-semibold text-white mb-1">TipTap Block Editor</h3>
-            <p className="text-xs text-slate-400">محرر تكتلي عربي بدعم الاتجاه التلقائي وقائمة الأوامر /.</p>
-          </div>
-
-          <div className="p-5 rounded-2xl border border-slate-800 bg-slate-900/60 backdrop-blur-md hover:border-emerald-500/50 transition-all group">
-            <div className="w-10 h-10 rounded-xl bg-emerald-500/10 flex items-center justify-center text-emerald-400 mb-3 group-hover:scale-110 transition-transform">
-              <ShieldCheck className="w-5 h-5" />
-            </div>
-            <h3 className="text-base font-semibold text-white mb-1">Realtime & Security</h3>
-            <p className="text-xs text-slate-400">مزامنة Yjs WebSockets وتشفير كلمات المرور وحماية الصلاحيات.</p>
-          </div>
+      {/* Features Section */}
+      <section id="features" className="relative z-10 max-w-7xl mx-auto px-6 py-24">
+        <div className="text-center mb-16">
+          <h2 className="text-3xl md:text-5xl font-black mb-4 text-white">كل ما تحتاجه في مكان واحد</h2>
+          <p className="text-slate-400 text-lg">أدوات قوية مصممة خصيصاً للمستخدم العربي</p>
         </div>
 
-        {/* Status Check */}
-        <div className="pt-6 flex items-center justify-center gap-3 text-sm text-slate-400">
-          <CheckCircle2 className="w-5 h-5 text-emerald-400" />
-          <span>حالة النظام: المديولات 00 إلى 07 مكتملة ومفحوصة بنجاح 100%</span>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="bg-slate-900/40 border border-slate-800 backdrop-blur-md p-8 rounded-3xl hover:bg-slate-800/50 hover:border-emerald-500/30 transition-all group">
+            <div className="w-14 h-14 bg-emerald-500/10 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+              <Edit3 className="w-7 h-7 text-emerald-400" />
+            </div>
+            <h3 className="text-xl font-bold mb-3 text-white">محرر كتل ذكي</h3>
+            <p className="text-slate-400 leading-relaxed">محرر نصوص عربي غني مع أوامر / سريعة، يدعم كافة التنسيقات والوسائط بسهولة.</p>
+          </div>
+
+          <div className="bg-slate-900/40 border border-slate-800 backdrop-blur-md p-8 rounded-3xl hover:bg-slate-800/50 hover:border-cyan-500/30 transition-all group">
+            <div className="w-14 h-14 bg-cyan-500/10 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+              <Database className="w-7 h-7 text-cyan-400" />
+            </div>
+            <h3 className="text-xl font-bold mb-3 text-white">قواعد بيانات مرنة</h3>
+            <p className="text-slate-400 leading-relaxed">جدول، كانبان، تقويم في مكان واحد. نظم بياناتك بالطريقة التي تناسبك.</p>
+          </div>
+
+          <div className="bg-slate-900/40 border border-slate-800 backdrop-blur-md p-8 rounded-3xl hover:bg-slate-800/50 hover:border-indigo-500/30 transition-all group">
+            <div className="w-14 h-14 bg-indigo-500/10 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+              <Users className="w-7 h-7 text-indigo-400" />
+            </div>
+            <h3 className="text-xl font-bold mb-3 text-white">تعاون لحظي</h3>
+            <p className="text-slate-400 leading-relaxed">اعمل مع فريقك في نفس الوقت. شارك الأفكار وتابع التقدم بشكل مباشر.</p>
+          </div>
+
+          <div className="bg-slate-900/40 border border-slate-800 backdrop-blur-md p-8 rounded-3xl hover:bg-slate-800/50 hover:border-teal-500/30 transition-all group">
+            <div className="w-14 h-14 bg-teal-500/10 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+              <Calendar className="w-7 h-7 text-teal-400" />
+            </div>
+            <h3 className="text-xl font-bold mb-3 text-white">تقويم هجري وميلادي</h3>
+            <p className="text-slate-400 leading-relaxed">دعم كامل للتقويمين ليتناسب مع احتياجات عملك ومواعيدك المحلية.</p>
+          </div>
+
+          <div className="bg-slate-900/40 border border-slate-800 backdrop-blur-md p-8 rounded-3xl hover:bg-slate-800/50 hover:border-purple-500/30 transition-all group">
+            <div className="w-14 h-14 bg-purple-500/10 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+              <Sparkles className="w-7 h-7 text-purple-400" />
+            </div>
+            <h3 className="text-xl font-bold mb-3 text-white">مساعد ذكي بالعربية</h3>
+            <p className="text-slate-400 leading-relaxed">ذكاء اصطناعي يفهم السياق العربي، يساعدك في الكتابة والتلخيص والترجمة.</p>
+          </div>
+
+          <div className="bg-slate-900/40 border border-slate-800 backdrop-blur-md p-8 rounded-3xl hover:bg-slate-800/50 hover:border-rose-500/30 transition-all group">
+            <div className="w-14 h-14 bg-rose-500/10 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+              <ShieldCheck className="w-7 h-7 text-rose-400" />
+            </div>
+            <h3 className="text-xl font-bold mb-3 text-white">آمن وموثوق</h3>
+            <p className="text-slate-400 leading-relaxed">تشفير كامل للبيانات، نسخ احتياطي تلقائي، وصلاحيات متقدمة للمستخدمين.</p>
+          </div>
         </div>
-      </div>
+      </section>
+
+      {/* CTA Section */}
+      <section className="relative z-10 max-w-5xl mx-auto px-6 py-24 text-center">
+        <div className="bg-gradient-to-r from-emerald-900/40 to-cyan-900/40 border border-emerald-500/20 backdrop-blur-xl p-12 rounded-[3rem]">
+          <h2 className="text-4xl md:text-5xl font-black mb-6 text-white">جاهز لتنظيم عالمك؟</h2>
+          <p className="text-slate-300 text-xl mb-10 max-w-2xl mx-auto">انضم إلى آلاف المستخدمين الذين غيروا طريقة عملهم مع مسار.</p>
+          <Link href="/register" className="inline-block bg-white hover:bg-slate-100 text-slate-950 font-black text-xl px-10 py-5 rounded-2xl shadow-xl transition-transform transform hover:scale-105">
+            ابدأ الآن مجاناً
+          </Link>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="relative z-10 border-t border-slate-800 bg-slate-950/50 backdrop-blur-md py-12 mt-12">
+        <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-6">
+          <div className="flex items-center gap-3">
+            <div className="w-8 h-8 rounded-lg bg-gradient-to-tr from-emerald-500 to-cyan-400 flex items-center justify-center text-slate-950 font-black text-lg">
+              م
+            </div>
+            <span className="font-bold text-xl text-white">مسار</span>
+          </div>
+          
+          <div className="text-slate-400 text-sm">
+            مسار © 2026 - جميع الحقوق محفوظة
+          </div>
+          
+          <div className="flex items-center gap-6 text-sm text-slate-400">
+            <Link href="#" className="hover:text-emerald-400 transition-colors">الشروط والأحكام</Link>
+            <Link href="#" className="hover:text-emerald-400 transition-colors">سياسة الخصوصية</Link>
+          </div>
+        </div>
+      </footer>
     </main>
   );
 }
