@@ -24,9 +24,23 @@ export default function WorkspaceLayout({
   const { activeWorkspace, selectWorkspaceBySlug, isLoading: workspaceLoading, error } = useWorkspaceStore();
   const { fetchPageTree } = usePageStore();
 
+  const [isSlowLoading, setIsSlowLoading] = React.useState(false);
+
   useEffect(() => {
     checkAuth();
   }, [checkAuth]);
+
+  useEffect(() => {
+    let timeout: NodeJS.Timeout;
+    if (!isInitialized || authLoading || workspaceLoading) {
+      timeout = setTimeout(() => {
+        setIsSlowLoading(true);
+      }, 5000);
+    } else {
+      setIsSlowLoading(false);
+    }
+    return () => clearTimeout(timeout);
+  }, [isInitialized, authLoading, workspaceLoading]);
 
   useEffect(() => {
     if (isInitialized && !authLoading && !isAuthenticated) {
@@ -48,8 +62,14 @@ export default function WorkspaceLayout({
 
   if (!isInitialized || authLoading || workspaceLoading) {
     return (
-      <div className="h-screen w-full flex items-center justify-center bg-slate-950">
+      <div className="h-screen w-full flex flex-col items-center justify-center bg-slate-950 gap-4">
         <Loader2 className="w-8 h-8 text-emerald-500 animate-spin" />
+        {isSlowLoading && (
+          <div className="text-slate-400 text-sm animate-pulse flex flex-col items-center gap-2">
+            <p>جاري إيقاظ الخادم...</p>
+            <p className="text-xs text-slate-500">(قد يستغرق هذا دقيقة في الاستضافة المجانية)</p>
+          </div>
+        )}
       </div>
     );
   }
