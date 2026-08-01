@@ -4,7 +4,36 @@ import React from 'react';
 import Link from 'next/link';
 import { Edit3, Database, Users, Calendar, Sparkles, ShieldCheck } from 'lucide-react';
 
+import { useRouter } from 'next/navigation';
+import { useAuthStore } from '@/stores/use-auth-store';
+import { useWorkspaceStore } from '@/stores/use-workspace-store';
+
 export default function LandingPage() {
+  const router = useRouter();
+  const { isAuthenticated, checkAuth } = useAuthStore();
+  const { workspaces, fetchWorkspaces, isLoading: isWorkspaceLoading } = useWorkspaceStore();
+  const [hasFetched, setHasFetched] = React.useState(false);
+
+  React.useEffect(() => {
+    checkAuth();
+  }, [checkAuth]);
+
+  React.useEffect(() => {
+    if (isAuthenticated) {
+      fetchWorkspaces().then(() => setHasFetched(true));
+    }
+  }, [isAuthenticated, fetchWorkspaces]);
+
+  React.useEffect(() => {
+    if (isAuthenticated && hasFetched && !isWorkspaceLoading) {
+      if (workspaces.length > 0) {
+        router.push(`/${workspaces[0].slug}`);
+      } else {
+        router.push('/onboarding');
+      }
+    }
+  }, [isAuthenticated, hasFetched, isWorkspaceLoading, workspaces, router]);
+
   return (
     <main className="min-h-screen bg-gradient-to-b from-slate-950 to-slate-900 text-white font-cairo overflow-hidden relative" dir="rtl">
       
