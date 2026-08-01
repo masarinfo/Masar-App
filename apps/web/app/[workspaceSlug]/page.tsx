@@ -10,7 +10,8 @@ import { FileText, Users, Database, Plus, UserPlus, Clock } from 'lucide-react';
 import Link from 'next/link';
 
 export default function WorkspaceDashboardPage({ params }: { params: Promise<{ workspaceSlug: string }> }) {
-  const { workspaceSlug } = use(params);
+  const resolvedParams = use(params);
+  const workspaceSlug = decodeURIComponent(resolvedParams.workspaceSlug);
   const { user } = useAuthStore();
   const { activeWorkspace } = useWorkspaceStore();
   const { pageTree } = usePageStore();

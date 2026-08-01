@@ -80,7 +80,8 @@ export const useWorkspaceStore = create<WorkspaceState>((set, get) => ({
 
     set({ isLoading: true, error: null });
     try {
-      const res = await fetch(`${API_URL}/workspaces/${slug}`, {
+      const encodedSlug = encodeURIComponent(slug);
+      const res = await fetch(`${API_URL}/workspaces/${encodedSlug}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
 

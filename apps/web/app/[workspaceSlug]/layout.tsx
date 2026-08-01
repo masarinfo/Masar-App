@@ -16,7 +16,8 @@ export default function WorkspaceLayout({
   children: React.ReactNode;
   params: Promise<{ workspaceSlug: string }>;
 }) {
-  const { workspaceSlug } = use(params);
+  const resolvedParams = use(params);
+  const workspaceSlug = decodeURIComponent(resolvedParams.workspaceSlug);
   const router = useRouter();
   
   const { isAuthenticated, checkAuth, isLoading: authLoading } = useAuthStore();

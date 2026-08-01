@@ -12,9 +12,11 @@ import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuIte
 import { Table, LayoutTemplate, CalendarDays, MoreHorizontal, Image as ImageIcon, Smile, Lock, Maximize2, Loader2, ChevronLeft } from 'lucide-react';
 import Link from 'next/link';
 
-export default function SmartPage({ params }: { params: Promise<{ workspaceSlug: string, pageId: string }> }) {
-  const { workspaceSlug, pageId } = use(params);
-  const { selectPage, activePage, updatePage, isLoading } = usePageStore();
+export default function SmartPage({ params }: { params: Promise<{ workspaceSlug: string; pageId: string }> }) {
+  const resolvedParams = use(params);
+  const workspaceSlug = decodeURIComponent(resolvedParams.workspaceSlug);
+  const pageId = decodeURIComponent(resolvedParams.pageId);
+  const { selectPage, activePage, isLoading, updatePage, fetchPageTree } = usePageStore();
   const { fetchDatabaseSchema } = useDatabaseStore();
 
   const [currentView, setCurrentView] = useState<'table' | 'kanban' | 'calendar'>('table');
