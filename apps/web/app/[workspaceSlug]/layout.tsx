@@ -49,10 +49,10 @@ export default function WorkspaceLayout({
   }, [isAuthenticated, authLoading, isInitialized, router]);
 
   useEffect(() => {
-    if (isInitialized && isAuthenticated && workspaceSlug) {
+    if (isInitialized && isAuthenticated && workspaceSlug && activeWorkspace?.slug !== workspaceSlug) {
       selectWorkspaceBySlug(workspaceSlug);
     }
-  }, [isAuthenticated, isInitialized, workspaceSlug, selectWorkspaceBySlug]);
+  }, [isAuthenticated, isInitialized, workspaceSlug, activeWorkspace?.slug, selectWorkspaceBySlug]);
 
   useEffect(() => {
     if (activeWorkspace?.id) {
@@ -60,7 +60,7 @@ export default function WorkspaceLayout({
     }
   }, [activeWorkspace?.id, fetchPageTree]);
 
-  if (!isInitialized || authLoading || workspaceLoading) {
+  if (!isInitialized || authLoading || (workspaceLoading && !activeWorkspace)) {
     return (
       <div className="h-screen w-full flex flex-col items-center justify-center bg-slate-950 gap-4">
         <Loader2 className="w-8 h-8 text-emerald-500 animate-spin" />

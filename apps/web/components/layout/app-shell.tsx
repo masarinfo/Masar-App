@@ -21,8 +21,7 @@ export function AppShell({ children, workspaceSlug }: AppShellProps) {
 
   useEffect(() => {
     fetchWorkspaces();
-    selectWorkspaceBySlug(workspaceSlug);
-  }, [workspaceSlug, selectWorkspaceBySlug, fetchWorkspaces]);
+  }, [fetchWorkspaces]);
 
   useEffect(() => {
     if (activeWorkspace) {
