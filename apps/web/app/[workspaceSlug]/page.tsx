@@ -105,7 +105,7 @@ export default function WorkspaceDashboardPage({ params }: { params: Promise<{ w
                 </Card>
               </Link>
             ))}
-            {(!pages || pages.length === 0) && (
+            {(!pageTree || pageTree.length === 0) && (
               <div className="text-slate-500 text-sm bg-slate-900/30 p-4 rounded-xl border border-slate-800 w-full text-center">
                 لا توجد صفحات حتى الآن
               </div>

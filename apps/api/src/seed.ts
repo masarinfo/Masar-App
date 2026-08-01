@@ -1,7 +1,6 @@
-import { PrismaClient } from '@prisma/client';
+import { prisma } from '@masar/db';
 
 export async function seedDemoData() {
-  const prisma = new PrismaClient();
   try {
     const user = await prisma.user.upsert({
       where: { email: 'demo@masar.ai' },

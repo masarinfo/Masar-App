@@ -54,7 +54,6 @@ export default function TemplateGalleryPage() {
         workspaceId: activeWorkspace.id,
         title: 'صفحة جديدة',
         icon: '📄',
-        parentId: null,
       });
       showToast(`تم إنشاء صفحة فارغة بنجاح`);
       router.push(`/${activeWorkspace.slug}`);
@@ -67,10 +66,6 @@ export default function TemplateGalleryPage() {
         workspaceId: activeWorkspace.id,
         title: page.title,
         icon: page.icon,
-        parentId: null,
-        // The store currently creates default DOCUMENT type, but template has type and isDatabase.
-        // We'll rely on the existing createPage dto which might just take title and icon for now,
-        // or we pass additional fields if the backend supports it.
       });
       count++;
     }

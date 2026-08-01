@@ -45,6 +45,7 @@ export class PageService {
         .filter((p) => p.parentId === parentId)
         .map((p) => ({
           ...p,
+          type: p.type as any,
           children: buildTree(p.id),
         }));
     };

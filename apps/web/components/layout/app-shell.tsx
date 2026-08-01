@@ -5,7 +5,8 @@ import { useLayoutStore } from '@/stores/use-layout-store';
 import { useWorkspaceStore } from '@/stores/use-workspace-store';
 import { usePageStore } from '@/stores/use-page-store';
 import { SidebarPageTree } from './sidebar-page-tree';
-import { Search, Home, Settings, Trash, Plus, Menu, ChevronDown } from 'lucide-react';
+import { Search, Home, Settings, Trash, Plus, Menu, ChevronDown, Bell } from 'lucide-react';
+import { Inbox } from './inbox';
 
 interface AppShellProps {
   children: React.ReactNode;

@@ -7,6 +7,7 @@ import { useWorkspaceStore } from '@/stores/use-workspace-store';
 import { usePageStore } from '@/stores/use-page-store';
 import { AppShell } from '@/components/layout/app-shell';
 import { Loader2 } from 'lucide-react';
+import { CommandPalette } from '@/components/search/command-palette';
 
 export default function WorkspaceLayout({
   children,
@@ -67,8 +68,11 @@ export default function WorkspaceLayout({
   }
 
   return (
-    <AppShell workspaceSlug={workspaceSlug}>
-      {children}
-    </AppShell>
+    <>
+      <AppShell workspaceSlug={workspaceSlug}>
+        {children}
+      </AppShell>
+      <CommandPalette workspaceSlug={workspaceSlug} />
+    </>
   );
 }
