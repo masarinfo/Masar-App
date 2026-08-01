@@ -31,7 +31,7 @@ export function CalendarView({ pageId }: CalendarViewProps) {
   // Find the first DATE property to group by
   const dateProperty = useMemo(
     () => properties.find((p) => p.type === PagePropertyType.DATE),
-    [properties]
+    [properties],
   );
 
   const nextMonth = () => setCurrentDate(addMonths(currentDate, 1));
@@ -51,11 +51,11 @@ export function CalendarView({ pageId }: CalendarViewProps) {
 
   const getRowsForDay = (day: Date) => {
     if (!dateProperty) return [];
-    
+
     return rows.filter((row) => {
       const cellValue = row.data?.[dateProperty.id];
       if (!cellValue) return false;
-      
+
       try {
         const rowDate = parseISO(cellValue); // assuming stored as ISO string (YYYY-MM-DD)
         return isSameDay(rowDate, day);
@@ -94,13 +94,28 @@ export function CalendarView({ pageId }: CalendarViewProps) {
           </h2>
         </div>
         <div className="flex items-center gap-2" dir="ltr">
-          <Button variant="outline" size="icon" onClick={prevMonth} className="h-8 w-8 rounded-full">
+          <Button
+            variant="outline"
+            size="icon"
+            onClick={prevMonth}
+            className="h-8 w-8 rounded-full"
+          >
             <ChevronLeft className="w-4 h-4" />
           </Button>
-          <Button variant="outline" size="sm" onClick={today} className="h-8 px-4 font-cairo font-bold">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={today}
+            className="h-8 px-4 font-cairo font-bold"
+          >
             اليوم
           </Button>
-          <Button variant="outline" size="icon" onClick={nextMonth} className="h-8 w-8 rounded-full">
+          <Button
+            variant="outline"
+            size="icon"
+            onClick={nextMonth}
+            className="h-8 w-8 rounded-full"
+          >
             <ChevronRight className="w-4 h-4" />
           </Button>
         </div>

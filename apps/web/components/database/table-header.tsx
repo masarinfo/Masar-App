@@ -11,7 +11,9 @@ interface TableHeaderProps {
 }
 
 export function TableHeader({ header, property }: TableHeaderProps) {
-  const config = PROPERTY_TYPE_CONFIG[property.type as PagePropertyType] || PROPERTY_TYPE_CONFIG[PagePropertyType.TEXT];
+  const config =
+    PROPERTY_TYPE_CONFIG[property.type as PagePropertyType] ||
+    PROPERTY_TYPE_CONFIG[PagePropertyType.TEXT];
   const Icon = config.icon;
 
   return (

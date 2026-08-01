@@ -36,7 +36,9 @@ export function CalendarDay({ day, monthStart, rows, properties }: CalendarDayPr
       <div className="flex items-start justify-between">
         <div
           className={`flex items-center justify-center w-6 h-6 text-sm font-bold rounded-full ${
-            isCurrentDay ? 'bg-emerald-500 text-white shadow-lg shadow-emerald-500/20' : 'text-slate-300'
+            isCurrentDay
+              ? 'bg-emerald-500 text-white shadow-lg shadow-emerald-500/20'
+              : 'text-slate-300'
           }`}
         >
           {format(day, 'd')}
@@ -49,7 +51,9 @@ export function CalendarDay({ day, monthStart, rows, properties }: CalendarDayPr
       {/* Events / Rows */}
       <div className="flex flex-col gap-1 mt-1 overflow-y-auto max-h-[85px] custom-scrollbar">
         {rows.map((row) => {
-          const titleValue = titleProperty ? (row.data?.[titleProperty.id] || 'بدون عنوان') : 'بدون عنوان';
+          const titleValue = titleProperty
+            ? row.data?.[titleProperty.id] || 'بدون عنوان'
+            : 'بدون عنوان';
           return (
             <div
               key={row.id}

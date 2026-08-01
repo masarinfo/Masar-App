@@ -15,7 +15,7 @@ interface TableCellProps {
 
 export function TableCell({ row, property, pageId }: TableCellProps) {
   const { updateCellData, properties } = useDatabaseStore();
-  
+
   // If this is a formula property, we compute its value dynamically
   let initialValue = row.data?.[property.id] || '';
   if (property.type === PagePropertyType.FORMULA && property.options?.expression) {
@@ -63,7 +63,11 @@ export function TableCell({ row, property, pageId }: TableCellProps) {
       case PagePropertyType.SELECT:
       case PagePropertyType.MULTI_SELECT:
         // Basic rendering for now, can be enhanced with colorful badges
-        return <span className="px-2 py-0.5 rounded-md bg-amber-500/20 text-amber-300 text-[10px]">{value}</span>;
+        return (
+          <span className="px-2 py-0.5 rounded-md bg-amber-500/20 text-amber-300 text-[10px]">
+            {value}
+          </span>
+        );
       case PagePropertyType.DATE:
         return <span className="text-rose-300 text-xs">{value}</span>;
       case PagePropertyType.CHECKBOX:
@@ -80,13 +84,21 @@ export function TableCell({ row, property, pageId }: TableCellProps) {
           />
         );
       case PagePropertyType.FORMULA:
-        return <span className="font-mono font-bold text-indigo-400 bg-indigo-500/10 px-2 py-0.5 rounded text-[11px]">Σ = {value}</span>;
+        return (
+          <span className="font-mono font-bold text-indigo-400 bg-indigo-500/10 px-2 py-0.5 rounded text-[11px]">
+            Σ = {value}
+          </span>
+        );
       default:
         return <span className="text-slate-300 truncate">{value}</span>;
     }
   };
 
-  if (isEditing && property.type !== PagePropertyType.CHECKBOX && property.type !== PagePropertyType.FORMULA) {
+  if (
+    isEditing &&
+    property.type !== PagePropertyType.CHECKBOX &&
+    property.type !== PagePropertyType.FORMULA
+  ) {
     return (
       <Input
         ref={inputRef}
@@ -103,16 +115,23 @@ export function TableCell({ row, property, pageId }: TableCellProps) {
   return (
     <div
       className={`w-full h-full min-h-[32px] flex items-center px-3 py-1 transition-colors rounded-md overflow-hidden ${
-        property.type === PagePropertyType.FORMULA ? 'cursor-default bg-slate-900/40' : 'cursor-text hover:bg-slate-800/30'
+        property.type === PagePropertyType.FORMULA
+          ? 'cursor-default bg-slate-900/40'
+          : 'cursor-text hover:bg-slate-800/30'
       }`}
       onClick={() => {
-        if (property.type !== PagePropertyType.CHECKBOX && property.type !== PagePropertyType.FORMULA) {
+        if (
+          property.type !== PagePropertyType.CHECKBOX &&
+          property.type !== PagePropertyType.FORMULA
+        ) {
           setIsEditing(true);
         }
       }}
     >
       {value === '' || value === undefined || value === null ? (
-        <span className="text-slate-600 italic text-[11px] opacity-0 hover:opacity-100">فارغ...</span>
+        <span className="text-slate-600 italic text-[11px] opacity-0 hover:opacity-100">
+          فارغ...
+        </span>
       ) : (
         renderContent()
       )}

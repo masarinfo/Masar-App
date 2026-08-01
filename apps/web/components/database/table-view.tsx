@@ -5,12 +5,7 @@ import { IProperty, IDatabaseRow } from '@masar/types';
 import { useDatabaseStore } from '@/stores/use-database-store';
 import { TableCell } from './table-cell';
 import { TableHeader } from './table-header';
-import {
-  useReactTable,
-  getCoreRowModel,
-  flexRender,
-  ColumnDef,
-} from '@tanstack/react-table';
+import { useReactTable, getCoreRowModel, flexRender, ColumnDef } from '@tanstack/react-table';
 import { useVirtualizer } from '@tanstack/react-virtual';
 import { Trash2, GripVertical } from 'lucide-react';
 
@@ -116,10 +111,7 @@ export function TableView({ pageId }: TableViewProps) {
         </div>
 
         {/* Table Body (Virtualized) */}
-        <div
-          className="relative w-full"
-          style={{ height: rowVirtualizer.getTotalSize() }}
-        >
+        <div className="relative w-full" style={{ height: rowVirtualizer.getTotalSize() }}>
           {virtualRows.length === 0 ? (
             <div className="absolute inset-0 flex items-center justify-center text-sm text-slate-500 py-10">
               لا توجد صفوف بيانات.

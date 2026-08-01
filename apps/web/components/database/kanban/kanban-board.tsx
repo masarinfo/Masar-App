@@ -28,7 +28,10 @@ export function KanbanBoard({ pageId }: KanbanBoardProps) {
 
   // Find the first SELECT or MULTI_SELECT property to group by
   const groupByProperty = useMemo(
-    () => properties.find((p) => p.type === PagePropertyType.SELECT || p.type === PagePropertyType.MULTI_SELECT),
+    () =>
+      properties.find(
+        (p) => p.type === PagePropertyType.SELECT || p.type === PagePropertyType.MULTI_SELECT,
+      ),
     [properties],
   );
 
@@ -40,13 +43,13 @@ export function KanbanBoard({ pageId }: KanbanBoardProps) {
     }),
     useSensor(KeyboardSensor, {
       coordinateGetter: sortableKeyboardCoordinates,
-    })
+    }),
   );
 
   // Derive columns from the groupByProperty options
   const columns = useMemo(() => {
     if (!groupByProperty || !groupByProperty.options) return [];
-    
+
     // We also want a "No Status" or "Uncategorized" column for rows without this property set
     const cols = [
       { id: 'uncategorized', title: 'غير مصنف', color: '#64748b' }, // slate-500
@@ -61,7 +64,7 @@ export function KanbanBoard({ pageId }: KanbanBoardProps) {
 
   const getRowsForColumn = (columnId: string) => {
     if (!groupByProperty) return [];
-    
+
     return rows.filter((row) => {
       const cellValue = row.data?.[groupByProperty.id];
       if (columnId === 'uncategorized') {
@@ -82,18 +85,18 @@ export function KanbanBoard({ pageId }: KanbanBoardProps) {
     if (!over || !groupByProperty) return;
 
     const activeRowId = active.id as string;
-    
+
     // Check if we dropped over a column or over a card
     // The over.id could be the columnId OR another card's id
     let targetColumnId = over.id as string;
-    
+
     // If dropped over a card, find which column that card belongs to
-    const overRow = rows.find(r => r.id === over.id);
+    const overRow = rows.find((r) => r.id === over.id);
     if (overRow) {
       targetColumnId = overRow.data?.[groupByProperty.id] || 'uncategorized';
     }
 
-    const activeRow = rows.find(r => r.id === activeRowId);
+    const activeRow = rows.find((r) => r.id === activeRowId);
     if (!activeRow) return;
 
     const currentColumnId = activeRow.data?.[groupByProperty.id] || 'uncategorized';
