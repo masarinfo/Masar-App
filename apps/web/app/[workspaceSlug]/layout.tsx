@@ -20,7 +20,7 @@ export default function WorkspaceLayout({
   const workspaceSlug = decodeURIComponent(resolvedParams.workspaceSlug);
   const router = useRouter();
   
-  const { isAuthenticated, checkAuth, isLoading: authLoading } = useAuthStore();
+  const { isAuthenticated, checkAuth, isLoading: authLoading, isInitialized } = useAuthStore();
   const { activeWorkspace, selectWorkspaceBySlug, isLoading: workspaceLoading, error } = useWorkspaceStore();
   const { fetchPageTree } = usePageStore();
 
@@ -29,16 +29,16 @@ export default function WorkspaceLayout({
   }, [checkAuth]);
 
   useEffect(() => {
-    if (!authLoading && !isAuthenticated) {
+    if (isInitialized && !authLoading && !isAuthenticated) {
       router.push('/login');
     }
-  }, [isAuthenticated, authLoading, router]);
+  }, [isAuthenticated, authLoading, isInitialized, router]);
 
   useEffect(() => {
-    if (isAuthenticated && workspaceSlug) {
+    if (isInitialized && isAuthenticated && workspaceSlug) {
       selectWorkspaceBySlug(workspaceSlug);
     }
-  }, [isAuthenticated, workspaceSlug, selectWorkspaceBySlug]);
+  }, [isAuthenticated, isInitialized, workspaceSlug, selectWorkspaceBySlug]);
 
   useEffect(() => {
     if (activeWorkspace?.id) {
@@ -46,7 +46,7 @@ export default function WorkspaceLayout({
     }
   }, [activeWorkspace?.id, fetchPageTree]);
 
-  if (authLoading || workspaceLoading) {
+  if (!isInitialized || authLoading || workspaceLoading) {
     return (
       <div className="h-screen w-full flex items-center justify-center bg-slate-950">
         <Loader2 className="w-8 h-8 text-emerald-500 animate-spin" />
@@ -54,7 +54,7 @@ export default function WorkspaceLayout({
     );
   }
 
-  if (error || (!workspaceLoading && !activeWorkspace)) {
+  if (error || !activeWorkspace) {
     return (
       <div className="h-screen w-full flex items-center justify-center bg-slate-950 text-slate-100">
         <div className="text-center space-y-4">

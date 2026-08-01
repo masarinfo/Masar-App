@@ -10,7 +10,7 @@ import { useWorkspaceStore } from '@/stores/use-workspace-store';
 
 export default function LandingPage() {
   const router = useRouter();
-  const { isAuthenticated, checkAuth } = useAuthStore();
+  const { isAuthenticated, checkAuth, isInitialized } = useAuthStore();
   const { workspaces, fetchWorkspaces, isLoading: isWorkspaceLoading } = useWorkspaceStore();
   const [hasFetched, setHasFetched] = React.useState(false);
 
@@ -19,20 +19,20 @@ export default function LandingPage() {
   }, [checkAuth]);
 
   React.useEffect(() => {
-    if (isAuthenticated) {
+    if (isInitialized && isAuthenticated) {
       fetchWorkspaces().then(() => setHasFetched(true));
     }
-  }, [isAuthenticated, fetchWorkspaces]);
+  }, [isAuthenticated, isInitialized, fetchWorkspaces]);
 
   React.useEffect(() => {
-    if (isAuthenticated && hasFetched && !isWorkspaceLoading) {
+    if (isInitialized && isAuthenticated && hasFetched && !isWorkspaceLoading) {
       if (workspaces.length > 0) {
         router.push(`/${workspaces[0].slug}`);
       } else {
         router.push('/onboarding');
       }
     }
-  }, [isAuthenticated, hasFetched, isWorkspaceLoading, workspaces, router]);
+  }, [isInitialized, isAuthenticated, hasFetched, isWorkspaceLoading, workspaces, router]);
 
   return (
     <main className="min-h-screen bg-gradient-to-b from-slate-950 to-slate-900 text-white font-cairo overflow-hidden relative" dir="rtl">

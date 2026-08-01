@@ -17,11 +17,12 @@ interface AuthState {
   clearError: () => void;
 }
 
-export const useAuthStore = create<AuthState>((set, get) => ({
+export const useAuthStore = create<AuthState & { isInitialized: boolean }>((set, get) => ({
   user: null,
   token: typeof window !== 'undefined' ? localStorage.getItem('masar_token') : null,
   isAuthenticated: false,
   isLoading: false,
+  isInitialized: false,
   error: null,
 
   clearError: () => set({ error: null }),
@@ -97,7 +98,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
   checkAuth: async () => {
     const token = get().token;
     if (!token) {
-      set({ isAuthenticated: false, user: null });
+      set({ isAuthenticated: false, user: null, isLoading: false, isInitialized: true });
       return;
     }
 
@@ -112,10 +113,10 @@ export const useAuthStore = create<AuthState>((set, get) => ({
       }
 
       const user = await res.json();
-      set({ user, isAuthenticated: true, isLoading: false });
+      set({ user, isAuthenticated: true, isLoading: false, isInitialized: true });
     } catch {
       get().logout();
-      set({ isLoading: false });
+      set({ isLoading: false, isInitialized: true });
     }
   },
 }));
