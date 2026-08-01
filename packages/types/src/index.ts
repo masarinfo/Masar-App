@@ -23,6 +23,8 @@ export enum PagePropertyType {
   ROLLUP = 'ROLLUP',
 }
 
+export type PageType = 'DOCUMENT' | 'DATABASE';
+
 export interface IUser {
   id: string;
   email: string;
@@ -40,6 +42,11 @@ export interface IWorkspace {
   icon?: string | null;
   createdAt: Date;
   updatedAt: Date;
+}
+
+export interface ILayoutState {
+  sidebarOpen: boolean;
+  sidebarWidth: number;
 }
 
 export interface IMember {
@@ -60,6 +67,13 @@ export interface IPage {
   isPublished: boolean;
   isArchived: boolean;
   isDatabase: boolean;
+  type?: PageType;
+  position?: number;
+  isFavorite?: boolean;
+  fullWidth?: boolean;
+  fontStyle?: string;
+  smallText?: boolean;
+  isLocked?: boolean;
   workspaceId: string;
   authorId: string;
   parentId?: string | null;
@@ -147,6 +161,7 @@ export interface ICreatePageDto {
   workspaceId: string;
   parentId?: string;
   isDatabase?: boolean;
+  type?: PageType;
 }
 
 export interface IUpdatePageDto {
@@ -156,6 +171,12 @@ export interface IUpdatePageDto {
   content?: any;
   isPublished?: boolean;
   isArchived?: boolean;
+  type?: PageType;
+  isFavorite?: boolean;
+  fullWidth?: boolean;
+  fontStyle?: string;
+  smallText?: boolean;
+  isLocked?: boolean;
 }
 
 export interface IPageTreeNode extends IPage {

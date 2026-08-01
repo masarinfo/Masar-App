@@ -150,8 +150,8 @@ export const useDatabaseStore = create<DatabaseState>((set, get) => ({
       id: generateId(),
       pageId,
       data: {},
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
+      createdAt: new Date(),
+      updatedAt: new Date(),
     };
 
     if (state.isLocalMode) {

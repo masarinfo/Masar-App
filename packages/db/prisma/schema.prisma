@@ -55,6 +55,13 @@ model Page {
   isPublished Boolean       @default(false)
   isArchived  Boolean       @default(false)
   isDatabase  Boolean       @default(false)
+  type        String        @default("DOCUMENT")  // DOCUMENT | DATABASE
+  position    Float         @default(0)           // ordering in tree
+  isFavorite  Boolean       @default(false)
+  fullWidth   Boolean       @default(false)
+  fontStyle   String        @default("default")   // default | serif | mono
+  smallText   Boolean       @default(false)
+  isLocked    Boolean       @default(false)
   workspaceId String
   authorId    String
   parentId    String?
