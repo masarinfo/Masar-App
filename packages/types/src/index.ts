@@ -177,6 +177,8 @@ export interface IUpdatePageDto {
   fontStyle?: string;
   smallText?: boolean;
   isLocked?: boolean;
+  parentId?: string | null;
+  position?: number;
 }
 
 export interface IPageTreeNode extends IPage {
