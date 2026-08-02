@@ -18,7 +18,7 @@ export default function RegisterPage() {
     clearError();
     const success = await register({ name, email, password });
     if (success) {
-      router.push('/');
+      router.push('/onboarding');
     }
   };
 

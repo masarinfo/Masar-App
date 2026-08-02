@@ -4,11 +4,13 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useAuthStore } from '@/stores/use-auth-store';
+import { useWorkspaceStore } from '@/stores/use-workspace-store';
 import { LogIn, Mail, Lock, Sparkles, ArrowLeft, AlertCircle } from 'lucide-react';
 
 export default function LoginPage() {
   const router = useRouter();
   const { login, isLoading, error, clearError } = useAuthStore();
+  const { fetchWorkspaces } = useWorkspaceStore();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -17,7 +19,14 @@ export default function LoginPage() {
     clearError();
     const success = await login({ email, password });
     if (success) {
-      router.push('/');
+      const workspaceStore = useWorkspaceStore.getState();
+      await fetchWorkspaces();
+      const { workspaces } = useWorkspaceStore.getState();
+      if (workspaces.length > 0) {
+        router.push(`/${workspaces[0].slug}`);
+      } else {
+        router.push('/onboarding');
+      }
     }
   };
 

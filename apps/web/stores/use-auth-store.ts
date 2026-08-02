@@ -49,6 +49,7 @@ export const useAuthStore = create<AuthState & { isInitialized: boolean }>((set,
         token: data.accessToken,
         isAuthenticated: true,
         isLoading: false,
+        isInitialized: true,
       });
       return true;
     } catch (err: any) {
@@ -79,6 +80,7 @@ export const useAuthStore = create<AuthState & { isInitialized: boolean }>((set,
         token: data.accessToken,
         isAuthenticated: true,
         isLoading: false,
+        isInitialized: true,
       });
       return true;
     } catch (err: any) {
