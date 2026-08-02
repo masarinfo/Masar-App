@@ -8,7 +8,7 @@ import { TableView } from '@/components/database/table-view';
 import { KanbanBoard } from '@/components/database/kanban/kanban-board';
 import { CalendarView } from '@/components/database/calendar/calendar-view';
 import { Button } from '@/components/ui/button';
-import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator } from '@/components/ui/dropdown-menu';
+import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from '@/components/ui/dropdown-menu';
 import { Table, LayoutTemplate, CalendarDays, MoreHorizontal, Image as ImageIcon, Smile, Lock, Maximize2, Loader2, ChevronLeft, Star } from 'lucide-react';
 import Link from 'next/link';
 
@@ -117,7 +117,7 @@ export default function SmartPage({ params }: { params: Promise<{ workspaceSlug:
                   <div className="flex items-center gap-2"><Maximize2 className="w-4 h-4" /> عرض كامل</div>
                   {activePage.fullWidth && <span className="text-emerald-400 text-xs">مفعل</span>}
                 </DropdownMenuItem>
-                <DropdownMenuSeparator className="bg-slate-800" />
+                <hr className="border-slate-800 my-1" />
                 <DropdownMenuItem 
                   onClick={() => updatePage(pageId, { isLocked: !activePage.isLocked })}
                   className={`flex items-center justify-between gap-2 cursor-pointer hover:bg-slate-800 ${activePage.isLocked ? 'text-amber-400' : ''}`}
