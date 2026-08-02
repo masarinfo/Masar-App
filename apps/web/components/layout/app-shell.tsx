@@ -97,11 +97,7 @@ export function AppShell({ children, workspaceSlug }: AppShellProps) {
               </button>
             </div>
 
-            {/* Favorites (Placeholder) */}
-            <div className="space-y-1">
-               <div className="px-2 text-xs font-bold text-slate-400 font-cairo">المفضلة</div>
-               <div className="px-2 py-1 text-xs text-slate-500">لا توجد صفحات مفضلة</div>
-            </div>
+            {/* Favorites are now handled by SidebarPageTree */}
 
             {/* Page Tree */}
             {activeWorkspace && (

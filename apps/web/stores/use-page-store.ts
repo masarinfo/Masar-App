@@ -98,6 +98,29 @@ export const usePageStore = create<PageState>((set, get) => ({
     const active = get().activePage;
     if (!token || !pageId) return false;
 
+    // Optimistic UI Update
+    if (active?.id === pageId) {
+      set({ activePage: { ...active, ...dto } as IPage });
+    }
+    
+    // Optimistic Tree Update
+    const currentTree = get().pageTree;
+    const updateNodeInTree = (nodes: IPageTreeNode[]): IPageTreeNode[] => {
+      return nodes.map(node => {
+        if (node.id === pageId) {
+          return { ...node, ...dto } as IPageTreeNode;
+        }
+        if (node.children) {
+          return { ...node, children: updateNodeInTree(node.children) };
+        }
+        return node;
+      });
+    };
+    // Note: We don't optimistically move nodes (parentId change) because it's complex, we just wait for the server refresh for that.
+    if (dto.title !== undefined || dto.icon !== undefined || dto.isFavorite !== undefined) {
+      set({ pageTree: updateNodeInTree(currentTree) });
+    }
+
     try {
       const res = await fetch(`${API_URL}/pages/${pageId}`, {
         method: 'PATCH',

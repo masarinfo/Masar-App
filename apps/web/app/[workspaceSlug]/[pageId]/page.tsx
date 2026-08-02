@@ -8,8 +8,8 @@ import { TableView } from '@/components/database/table-view';
 import { KanbanBoard } from '@/components/database/kanban/kanban-board';
 import { CalendarView } from '@/components/database/calendar/calendar-view';
 import { Button } from '@/components/ui/button';
-import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from '@/components/ui/dropdown-menu';
-import { Table, LayoutTemplate, CalendarDays, MoreHorizontal, Image as ImageIcon, Smile, Lock, Maximize2, Loader2, ChevronLeft } from 'lucide-react';
+import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator } from '@/components/ui/dropdown-menu';
+import { Table, LayoutTemplate, CalendarDays, MoreHorizontal, Image as ImageIcon, Smile, Lock, Maximize2, Loader2, ChevronLeft, Star } from 'lucide-react';
 import Link from 'next/link';
 
 export default function SmartPage({ params }: { params: Promise<{ workspaceSlug: string; pageId: string }> }) {
@@ -87,6 +87,16 @@ export default function SmartPage({ params }: { params: Promise<{ workspaceSlug:
           </div>
 
           <div className="opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-2">
+            <Button 
+              variant="ghost" 
+              size="icon" 
+              onClick={() => updatePage(pageId, { isFavorite: !activePage.isFavorite })}
+              className={`transition-colors ${activePage.isFavorite ? 'text-yellow-400 hover:text-yellow-500' : 'text-slate-400 hover:text-white'}`}
+              title={activePage.isFavorite ? 'إزالة من المفضلة' : 'إضافة للمفضلة'}
+            >
+              <Star className="w-5 h-5" fill={activePage.isFavorite ? "currentColor" : "none"} />
+            </Button>
+            
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" size="icon" className="text-slate-400 hover:text-white">
@@ -100,11 +110,22 @@ export default function SmartPage({ params }: { params: Promise<{ workspaceSlug:
                 <DropdownMenuItem className="flex items-center gap-2 cursor-pointer hover:bg-slate-800">
                   <ImageIcon className="w-4 h-4" /> إضافة غلاف
                 </DropdownMenuItem>
-                <DropdownMenuItem className="flex items-center gap-2 cursor-pointer hover:bg-slate-800">
-                  <Maximize2 className="w-4 h-4" /> عرض كامل
+                <DropdownMenuItem 
+                  onClick={() => updatePage(pageId, { fullWidth: !activePage.fullWidth })}
+                  className="flex items-center justify-between gap-2 cursor-pointer hover:bg-slate-800"
+                >
+                  <div className="flex items-center gap-2"><Maximize2 className="w-4 h-4" /> عرض كامل</div>
+                  {activePage.fullWidth && <span className="text-emerald-400 text-xs">مفعل</span>}
                 </DropdownMenuItem>
-                <DropdownMenuItem className="flex items-center gap-2 cursor-pointer hover:bg-slate-800 text-amber-400">
-                  <Lock className="w-4 h-4" /> قفل الصفحة
+                <DropdownMenuSeparator className="bg-slate-800" />
+                <DropdownMenuItem 
+                  onClick={() => updatePage(pageId, { isLocked: !activePage.isLocked })}
+                  className={`flex items-center justify-between gap-2 cursor-pointer hover:bg-slate-800 ${activePage.isLocked ? 'text-amber-400' : ''}`}
+                >
+                  <div className="flex items-center gap-2">
+                    <Lock className="w-4 h-4" /> 
+                    {activePage.isLocked ? 'إلغاء قفل الصفحة' : 'قفل الصفحة'}
+                  </div>
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
